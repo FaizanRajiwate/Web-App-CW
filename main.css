@@ -130,10 +130,13 @@ nav button:hover {
     font-weight: 600;
 }
 
+
+/* Apply button */
 .buttons-coll {
     width: 90%;
     text-align: center;
   }
+
 
   .custom-btn {
     padding: 10px 25px;
@@ -146,7 +149,6 @@ nav button:hover {
     position: relative;
     display: inline-block;
   }
-  /**** BTN No. 1 ****/
   .btn-1 {
     border: 2px solid #000;
   }
