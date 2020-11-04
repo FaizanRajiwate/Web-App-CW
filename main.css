@@ -1,39 +1,77 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
-*
-{
+* {
     -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-
-body
-{
+body {
     font-family: 'Roboto', sans-serif;
+    background-image: url("images/background.jpg");
+    min-height: 300px; 
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-a
-{
-    text-decoration: none;
+
+/* Navigation Bar css */
+
+nav {
+    max-width: 960px;
+    mask-image: linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
+    margin: 0 auto;
+    text-align: center;
+    background: linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
 }
+
+nav ul li {
+    display: inline-block;
+}
+
+nav button {
+    font-weight: bold;
+    padding: 18px;
+    font-family: "Open Sans";
+    text-transform: uppercase;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;  
+    display: block;
+    background-color: transparent;
+    border:none;
+}
+
+nav button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    color: black
+}
+
+.active {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(0, 35, 122, 0.7);
+}
+
+
+/* Product cart css */
+.card-container {
+    grid-gap: 100px;
+    grid-template-columns: repeat(auto-fit, 300px);
+    justify-content: center;
+}
+
+
+
 .product-card {
     width: 380px;
     position: relative;
     box-shadow: 0 2px 7px #dfdfdf;
     margin: 50px auto;
     background: #fafafa;
-}
-
-.badge {
-    position: absolute;
-    left: 0;
-    top: 20px;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: 700;
-    background: red;
-    color: #fff;
-    padding: 3px 10px;
 }
 
 .product-tumb {
@@ -52,15 +90,6 @@ a
 
 .product-details {
     padding: 30px;
-}
-
-.product-catagory {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #ccc;
-    margin-bottom: 18px;
 }
 
 .product-details h4 a {
@@ -96,31 +125,36 @@ a
 }
 
 .product-price {
-    font-size: 18px;
+    font-size: 14px;
     color: #fbb72c;
     font-weight: 600;
 }
 
-.product-price small {
-    font-size: 80%;
-    font-weight: 400;
-    text-decoration: line-through;
+.buttons-coll {
+    width: 90%;
+    text-align: center;
+  }
+
+  .custom-btn {
+    padding: 10px 25px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    background: transparent;
+    outline: none !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
     display: inline-block;
-    margin-right: 5px;
-}
-
-.product-links {
-    text-align: right;
-}
-
-.product-links a {
-    display: inline-block;
-    margin-left: 5px;
-    color: #e1e1e1;
-    transition: 0.3s;
-    font-size: 17px;
-}
-
-.product-links a:hover {
-    color: #fbb72c;
-}
+  }
+  /**** BTN No. 1 ****/
+  .btn-1 {
+    border: 2px solid #000;
+  }
+  .btn-1:hover {
+    background: #000;
+    color: #fff;
+  }
+  .btn-1:active {
+    top: 2px;
+  }
+  

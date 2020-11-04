@@ -1,12 +1,12 @@
 <html>
 
 <head>
-    <title> Vue.js pet depot</title>
+    <title>Web App - Coursework 1</title>
     <script src="https://unpkg.com/vue"></script>
     <script src="product.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="main.css">
-    
+
     </link>
 
 </head>
@@ -19,68 +19,58 @@
                 {{cartitemCount}}
                 <i class="fas fa-shopping-cart"></i>Checkout
             </button>
+            <nav>
+                <ul>
+                    <li class="active"><button>Home</button></li>
+                    <li><button>Checkout</button></li>
+                </ul>
+            </nav>
+
         </header>
         <main>
             <div v-if="showProduct">
                 <div v-for="product in sortedProduct">
-
                     <div class="product-card">
-                        <!-- <div class="badge">Hot</div> -->
                         <div class="product-tumb">
                             <img v-bind:src="product.image">
                         </div>
                         <div class="product-details">
-                            <span class="product-catagory">Women,bag</span>
-                            <h4><a href="">Women leather bag</a></h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+                            <h2 v-text="product.title"></h2>
+                            <p>
+                                Location: {{product.location}}
+                            </p>
                             <div class="product-bottom-details">
                                 <div class="product-price">
-                                <p> Price: {{product.price}}</p>
+                                    <p> Price: {{product.price}}</p>
+                                    <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
+                                    <div class="buttons-coll">
+                                    <button class="custom-btn btn-1" v-on:click="addtoCart(product)" v-if='canAddToCart(product)'>
+                                        Apply
+                                    </button>
+                                    <!-- Checking Seats Remaining  using if else to display whether products sold out or are left to purchase -->
+                                    <span v-if="product.availableSpace === cartCount(product.id)">
+                                        All seats booked!
+                                    </span>
+                                    <span v-else-if="product.availableSpace - cartCount(product.id) < 5">
+                                        only {{product.availableSpace - cartCount(product.id)}} seats left!
+                                    </span>
+                                    <span v-else>
+                                       Book Now!
+                                    </span>
+
+                                    <button disabled='disabled' v-else>Apply for class</button>
+                                </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-
-
-
-
-
-                    <figure>
-                        <!-- bind the 'src' attribute to the 'product.image' in 'data' -->
-                        <img v-bind:src="product.image" width="300px" height="200px">
-                    </figure>
-                    <!-- Product discription -->
-                    <h2 v-text="product.title"></h2>
-                    <p v-html="product.description"></p>
-                    <!-- The double curly brackets is the shorter version of 'v-text' -->
-                    <p> Price: {{product.price}}</p>
-                    <p> Available Stock :{{product.availableInventory - cartCount(product.id)}} </p>
-                    <button v-on:click="addtoCart(product)" v-if='canAddToCart(product)'>
-                        Add to Cart
-                    </button>
-                    <!-- Checking available stock using if else to display whether products sold out or are left to purchase -->
-                    <span v-if="product.availableInventory === cartCount(product.id)">
-                        All sold out!
-                    </span>
-                    <span v-else-if="product.availableInventory - cartCount(product.id) < 5">
-                        only{{product.availableInventory - cartCount(product.id)}} left!
-                    </span>
-                    <span v-else>
-                        Buy Now!
-                    </span>
-
-                    <button disabled='disabled' v-else>Add to Cart</button>
-                    <!-- Rating using for loop -->
-                    <div>
-                        <span v-for="n in product.rating">★</span>
-                        <span v-for="n in 5-product.rating">☆</span>
-                    </div>
-
                 </div>
             </div>
 
 
 
-            <div v-else>
+            <!-- <div v-else>
                 <h2>Checkout</h2>
                 <p>
                     <strong>First Name: </strong>
@@ -96,16 +86,16 @@
                 <p>
                     <strong>State:</strong>
                     <select v-model="order.state">
-                        <option disabled value="" class="form-control">State</option>
+                        <option disabled value="" class="form-control">State</option> -->
 
-                        <!-- display states using for loop -->
-                        <option v-for="(states, key) in states" v-bind:value="states">{{key}}</option>
-                        <!-- display the name of the states based on the option selected -->
-                        <!-- <option v-bind:value="states.AL">AL</option>
+            <!-- display states using for loop -->
+            <!-- <option v-for="(states, key) in states" v-bind:value="states">{{key}}</option> -->
+            <!-- display the name of the states based on the option selected -->
+            <!-- <option v-bind:value="states.AL">AL</option>
                         <option v-bind:value="states.AR">AR</option>
                         <option v-bind:value="states.CA">CA</option>
                         <option v-bind:value="states.NV">NV</option> -->
-                    </select>
+            <!-- </select>
                 </p>
                 <p><strong>Postal Code:</strong> <input v-model="order.postalCode"> </p>
 
@@ -133,91 +123,82 @@
                 <button v-on:click="submitForm">Place an Order</button>
             </div>
         </main>
-    </div>
+    </div> -->
 
 
-    <script>
-        var webstore = new Vue({
-            el: "#app",
-            data: {
-                sitename: "Vue.js Pet Depot",
-                // product: {
-                //     id: 1001,
-                //     title: "Cat Food, 25lb bag",
-                //     description: "A 25 pound bag of <em>irresistible</em>," + "organic goodness for your cat.",
-                //     price: 2000,
-                //     image: "catfood.jpg",
-                //     availableInventory: 5,
-                //     rating:3,
-                // },
-                product: product,
+            <script>
+                var webstore = new Vue({
+                    el: "#app",
+                    data: {
+                        sitename: "After School Classes",
+                        product: product,
 
-                cart: [],
-                showProduct: true,
-                order: {
-                    firstName: '',
-                    lastName: '',
-                    address: '',
-                    city: '',
-                    state: '',
-                    postalCode: '',
-                    method: 'Home',
-                    sendGift: 'Send as a Gift',
-                    dontsendGift: 'Do not send as Gift',
+                        cart: [],
+                        showProduct: true,
+                        order: {
+                            firstName: '',
+                            lastName: '',
+                            address: '',
+                            city: '',
+                            state: '',
+                            postalCode: '',
+                            method: 'Home',
+                            sendGift: 'Send as a Gift',
+                            dontsendGift: 'Do not send as Gift',
 
-                },
-                states: {
-                    AL: 'Alabama',
-                    AR: 'Arizona',
-                    CA: 'California',
-                    NV: 'Nevada'
-                }
-            },
-            methods: {
-                addtoCart(product) {
-                    this.cart.push(product.id);
-                },
-                showCheckout() {
-                    this.showProduct = this.showProduct ? false : true;
-                },
-                submitForm() {
-                    alert('Order Submitted!')
-                },
-                canAddToCart: function (product) {
-                    return product.availableInventory > this.cartCount(product.id);
-                },
-                cartCount(id) {
-                    let count = 0;
-                    for (let i = 0; i < this.cart.length; i++) {
-                        if (this.cart[i] === id) {
-                            count++;
+                        },
+                        states: {
+                            AL: 'Alabama',
+                            AR: 'Arizona',
+                            CA: 'California',
+                            NV: 'Nevada'
                         }
-                    }
-                    return count;
-                },
+                    },
+                    methods: {
+                        addtoCart(product) {
+                            this.cart.push(product.id);
+                        },
+                        showCheckout() {
+                            this.showProduct = this.showProduct ? false : true;
+                        },
+                        submitForm() {
+                            alert('Order Submitted!')
+                        },
+                        canAddToCart: function (product) {
+                            return product.availableSpace > this.cartCount(product.id);
+                        },
+                        cartCount(id) {
+                            let count = 0;
+                            for (let i = 0; i < this.cart.length; i++) {
+                                if (this.cart[i] === id) {
+                                    count++;
+                                }
+                            }
+                            return count;
+                        },
 
-            },
-            computed: {
+                    },
+                    computed: {
 
-                cartitemCount: function () {
-                    return this.cart.length || '';
-                },
-                sortedProduct() {
-                    let productsArray = this.product.slice(0);
-                    function compare(a, b) {
-                        if (a.price > b.price)
-                            return 1;
-                        if (a.price < b.price)
-                            return -1;
-                        return 0;
-                    }
-                    return productsArray.sort(compare);
-                },
+                        cartitemCount: function () {
+                            return this.cart.length || '';
+                        },
+                        sortedProduct() {
+                            let productsArray = this.product.slice(0);
+                            function compare(a, b) {
+                                if (a.price > b.price)
+                                    return 1;
+                                if (a.price < b.price)
+                                    return -1;
+                                return 0;
+                            }
+                            return productsArray.sort(compare);
+                        },
 
-            },
+                    },
 
-        });
-    </script>
+                });
+            </script>
 
 
 </body>
