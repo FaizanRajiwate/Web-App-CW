@@ -14,23 +14,59 @@
 <body>
     <div id="app">
         <header>
-            <h1 v-text="sitename"></h1>
-            <button v-on:click='showCheckout'>
-                {{cartitemCount}}
-                <i class="fas fa-shopping-cart"></i>Checkout
-            </button>
+            <h1 class="pagetitle" v-text="sitename"></h1>
             <nav>
                 <ul>
                     <li class="active"><button>Home</button></li>
-                    <li><button>Checkout</button></li>
+                    <li><button>Cart : {{cartitemCount}} </button></li>
+                    <li><button v-on:click='showCheckout'>Checkout</button></li>
                 </ul>
             </nav>
-
         </header>
+
         <main>
+            <!-- Sort menu -->
+
+            <div class="nav-side-menu">
+                <div class="brand">Sorting Menu</div>
+                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+                <div class="menu-list">
+
+                    <ul id="menu-content" class="menu-content collapse out">
+                        <li>
+                        <input type="radio" id="home" value="Home">
+                        <label >Subject</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="home" value="Home">
+                        <label >Location</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="home" value="Home">
+                            <label >Price</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="home" value="Home">
+                            <label >Seats Available</label>
+                        </li>
+                        <br>
+                        <li>
+                            <input type="checkbox" id="gift" value="true">
+                            <label >Ascending Order</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="gift" value="true">
+                            <label >Descending Order</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Products list -->
             <div v-if="showProduct">
                 <div v-for="product in sortedProduct">
-                    <!-- Products list -->
+
                     <div class="product-card">
                         <div class="product-tumb">
                             <img v-bind:src="product.image">
@@ -45,22 +81,23 @@
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
                                     <div class="buttons-coll">
-                                    <button class="custom-btn btn-1" v-on:click="addtoCart(product)" v-if='canAddToCart(product)'>
-                                        Apply
-                                    </button>
-                                    <!-- Checking Seats Remaining  using if else to display whether products sold out or are left to purchase -->
-                                    <span v-if="product.availableSpace === cartCount(product.id)">
-                                        All seats booked!
-                                    </span>
-                                    <span v-else-if="product.availableSpace - cartCount(product.id) < 5">
-                                        only {{product.availableSpace - cartCount(product.id)}} seats left!
-                                    </span>
-                                    <span v-else>
-                                       Book Now!
-                                    </span>
+                                        <button class="custom-btn btn-1" v-on:click="addtoCart(product)"
+                                            v-if='canAddToCart(product)'>
+                                            Apply
+                                        </button>
+                                        <!-- Checking Seats Remaining  using if else to display whether products sold out or are left to purchase -->
+                                        <span v-if="product.availableSpace === cartCount(product.id)">
+                                            All seats booked!
+                                        </span>
+                                        <span v-else-if="product.availableSpace - cartCount(product.id) < 5">
+                                            only {{product.availableSpace - cartCount(product.id)}} seats left!
+                                        </span>
+                                        <span v-else>
+                                            Book Now!
+                                        </span>
 
-                                    <button disabled='disabled' v-else>Apply for class</button>
-                                </div>
+                                        <button disabled='disabled' v-else>Apply for class</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,60 +105,63 @@
                     </div>
                 </div>
             </div>
-            <script>
-                var webstore = new Vue({
-                    el: "#app",
-                    data: {
-                        sitename: "After School Classes",
-                        product: product,
-                        cart: [],
-                        showProduct: true,
-                    },
-                    methods: {
-                        addtoCart(product) {
-                            this.cart.push(product.id);
-                        },
-                        showCheckout() {
-                            this.showProduct = this.showProduct ? false : true;
-                        },
-                        submitForm() {
-                            alert('Order Submitted!')
-                        },
-                        canAddToCart: function (product) {
-                            return product.availableSpace > this.cartCount(product.id);
-                        },
-                        cartCount(id) {
-                            let count = 0;
-                            for (let i = 0; i < this.cart.length; i++) {
-                                if (this.cart[i] === id) {
-                                    count++;
-                                }
-                            }
-                            return count;
-                        },
+        </main>
+    </div>
 
-                    },
-                    computed: {
+    <script>
+        var webstore = new Vue({
+            el: "#app",
+            data: {
+                sitename: "After School Classes",
+                product: product,
+                cart: [],
+                showProduct: true,
+            },
+            methods: {
+                addtoCart(product) {
+                    this.cart.push(product.id);
+                },
+                showCheckout() {
+                    this.showProduct = this.showProduct ? false : true;
+                },
+                submitForm() {
+                    alert('Order Submitted!')
+                },
+                canAddToCart: function (product) {
+                    return product.availableSpace > this.cartCount(product.id);
+                },
+                cartCount(id) {
+                    let count = 0;
+                    for (let i = 0; i < this.cart.length; i++) {
+                        if (this.cart[i] === id) {
+                            count++;
+                        }
+                    }
+                    return count;
+                },
 
-                        cartitemCount: function () {
-                            return this.cart.length || '';
-                        },
-                        sortedProduct() {
-                            let productsArray = this.product.slice(0);
-                            function compare(a, b) {
-                                if (a.price > b.price)
-                                    return 1;
-                                if (a.price < b.price)
-                                    return -1;
-                                return 0;
-                            }
-                            return productsArray.sort(compare);
-                        },
+            },
+            computed: {
 
-                    },
+                cartitemCount: function () {
+                    return this.cart.length || '';
+                },
+                sortedProduct() {
+                    let productsArray = this.product.slice(0);
+                    function compare(a, b) {
+                        if (a.price > b.price)
+                            return 1;
+                        if (a.price < b.price)
+                            return -1;
+                        return 0;
+                    }
+                    return productsArray.sort(compare);
+                },
 
-                });
-            </script>
+            },
+
+        });
+    </script>
 
 
 </body>
