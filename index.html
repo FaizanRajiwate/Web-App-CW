@@ -17,7 +17,7 @@
             <h1 class="pagetitle" v-text="sitename"></h1>
             <nav>
                 <ul>
-                    <li class="active"><button>Home</button></li>
+                    <li class="active"><button v-on:click="page('showProduct')">Home</button></li>
                     <li><button disabled='disabled'>Cart : {{cartitemCount}} </button></li>
                     <li><button v-on:click='showCheckout'>Checkout</button></li>
                 </ul>
@@ -106,8 +106,8 @@
 
                     </div>
                 </div>
-                    
-                </div>
+
+            </div>
 
 
 
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <!-- shopping cart -->
-                <div v-for="product in cartPage">
+                <div v-for="(product, index) in cartPage">
 
                     <div class="product-card">
                         <div class="product-tumb">
@@ -153,8 +153,12 @@
                                 <div class="product-price">
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats booked : {{cartCount(product.id)}} </p>
-
+                                    <div class="buttons-coll">
+                                        <button class="custom-btn btn-1" v-on:click="deleteItem(index)">Delete</button>
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -203,13 +207,20 @@
                     }
                     return count;
                 },
+
                 sort(type) {
                     this.sortType = type;
                 },
+                page(type) {
+                    this.showProduct = type;
+                },
                 order(type) {
                     this.sortMethod = type;
+                },
+                deleteItem(index) {
+                    this.cartPage.splice(product, index);
+                    this.cart.splice(product, index);
                 }
-
 
             },
             computed: {
@@ -217,63 +228,41 @@
                 cartitemCount: function () {
                     return this.cart.length || '';
                 },
-                // ascendingOrder() {
-                //     let productsArray = this.product.slice(0);
-                //     function compare(a, b) {
-                //         if (a.price > b.price)
-                //             return 1;
-                //         if (a.price < b.price)
-                //             return -1;
-                //         return 0;
-                //     }
-                //     return productsArray.sort(compare);
-                // },
-                // descendingOrder() {
-                //     let productsArray = this.product.slice(0);
-                //     function compare(a, b) {
-                //         if (a.price > b.price)
-                //             return -1;
-                //         if (a.price < b.price)
-                //             return 1;
-                //         return 0;
-                //     }
-                //     return productsArray.sort(compare);
-                // },
-
+                // Ascending Order Sort
                 items() {
                     if (this.sortType === '') return this.origItems;
                     if (this.sortMethod === 'ascending') {
-                    if (this.sortType === 'title') {
-                        return this.origItems.sort((a, b) => {
-                            if (a.title < b.title) return -1;
-                            if (a.title > b.title) return 1;
-                            return 0;
-                        });
+                        if (this.sortType === 'title') {
+                            return this.origItems.sort((a, b) => {
+                                if (a.title < b.title) return -1;
+                                if (a.title > b.title) return 1;
+                                return 0;
+                            });
+                        }
+                        if (this.sortType === 'price') {
+                            return this.origItems.sort((a, b) => {
+                                if (a.price < b.price) return -1;
+                                if (a.price > b.price) return 1;
+                                return 0;
+                            });
+                        }
                     }
-                    if (this.sortType === 'price') {
-                        return this.origItems.sort((a, b) => {
-                            if (a.price < b.price) return -1;
-                            if (a.price > b.price) return 1;
-                            return 0;
-                        });
-                    }
-                    }
-// descending Order
+                    // descending Order Sort
                     if (this.sortMethod === 'descending') {
-                    if (this.sortType === 'title') {
-                        return this.origItems.sort((a, b) => {
-                            if (a.title < b.title) return 1;
-                            if (a.title > b.title) return -1;
-                            return 0;
-                        });
-                    }
-                    if (this.sortType === 'price') {
-                        return this.origItems.sort((a, b) => {
-                            if (a.price < b.price) return 1;
-                            if (a.price > b.price) return -1;
-                            return 0;
-                        });
-                    }
+                        if (this.sortType === 'title') {
+                            return this.origItems.sort((a, b) => {
+                                if (a.title < b.title) return 1;
+                                if (a.title > b.title) return -1;
+                                return 0;
+                            });
+                        }
+                        if (this.sortType === 'price') {
+                            return this.origItems.sort((a, b) => {
+                                if (a.price < b.price) return 1;
+                                if (a.price > b.price) return -1;
+                                return 0;
+                            });
+                        }
                     }
 
                 }
