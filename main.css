@@ -67,11 +67,6 @@ nav button:hover {
 
 
 /* Product cart css */
-.card-container {
-    grid-gap: 100px;
-    grid-template-columns: repeat(auto-fit, 300px);
-    justify-content: center;
-}
 
 
 
@@ -83,7 +78,6 @@ nav button:hover {
     background: #fafafa;
     float:left;
     margin-left:300px;
-
 }
 
 .product-tumb {

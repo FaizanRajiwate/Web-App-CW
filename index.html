@@ -18,54 +18,18 @@
             <nav>
                 <ul>
                     <li class="active"><button>Home</button></li>
-                    <li><button>Cart : {{cartitemCount}} </button></li>
+                    <li><button disabled='disabled'>Cart : {{cartitemCount}} </button></li>
                     <li><button v-on:click='showCheckout'>Checkout</button></li>
                 </ul>
             </nav>
         </header>
 
         <main>
-            <!-- Sort menu -->
 
-            <div class="nav-side-menu">
-                <div class="brand">Sorting Menu</div>
-                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-
-                <div class="menu-list">
-
-                    <ul id="menu-content" class="menu-content collapse out">
-                        <li>
-                        <input type="radio" id="home" value="Home">
-                        <label >Subject</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="home" value="Home">
-                        <label >Location</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="home" value="Home">
-                            <label >Price</label>
-                        </li>
-                        <li>
-                            <input type="radio" id="home" value="Home">
-                            <label >Seats Available</label>
-                        </li>
-                        <br>
-                        <li>
-                            <input type="checkbox" id="gift" value="true">
-                            <label >Ascending Order</label>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="gift" value="true">
-                            <label >Descending Order</label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
             <!-- Products list -->
             <div v-if="showProduct">
-                <div v-for="product in sortedProduct">
+                <div v-for="product in product">
 
                     <div class="product-card">
                         <div class="product-tumb">
@@ -81,7 +45,8 @@
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
                                     <div class="buttons-coll">
-                                        <button class="custom-btn btn-1" v-on:click="addtoCart(product)"
+                                        <button class="custom-btn btn-1"
+                                            v-on:click="addtoCart(product) , cartDisplay(product)"
                                             v-if='canAddToCart(product)'>
                                             Apply
                                         </button>
@@ -103,7 +68,76 @@
                         </div>
 
                     </div>
+
+                    <!-- Sort menu -->
+
+                    <!-- <div class="nav-side-menu">
+                        <div class="brand">Sorting Menu</div>
+                        <div class="menu-list">
+
+                            <ul id="menu-content" class="menu-content collapse out">
+                                <li>
+                                    <input type="radio" id="Subject" value="Subject">
+                                    <label>Subject</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="Location" value="Location">
+                                    <label>Location</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="Price" value="Price">
+                                    <label>Price</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="Availabity" value="Availabity">
+                                    <label>Seats Available</label>
+                                </li>
+                                <br>
+                                <li>
+                                    <input type="radio" id="ascending">
+                                    <label>Ascending Order</label>
+                                    
+
+                                </li>
+                                <li>
+
+                                    <input type="radio" id="descending">
+                                    <label>Descending Order</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
                 </div>
+
+
+
+            </div>
+            <div v-else>
+
+
+                <div v-for="product in cartPage">
+
+                    <div class="product-card">
+                        <div class="product-tumb">
+                            <img v-bind:src="product.image">
+                        </div>
+                        <div class="product-details">
+                            <h2 v-text="product.title"></h2>
+                            <p>
+                                Location: {{product.location}}
+                            </p>
+                            <div class="product-bottom-details">
+                                <div class="product-price">
+                                    <p> Price: {{product.price}}</p>
+                                    <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
@@ -115,15 +149,20 @@
                 sitename: "After School Classes",
                 product: product,
                 cart: [],
+                cartPage: [],
                 showProduct: true,
             },
             methods: {
                 addtoCart(product) {
                     this.cart.push(product.id);
                 },
+                cartDisplay(product) {
+                    this.cartPage.push(product);
+                },
                 showCheckout() {
                     this.showProduct = this.showProduct ? false : true;
                 },
+
                 submitForm() {
                     alert('Order Submitted!')
                 },
@@ -146,13 +185,24 @@
                 cartitemCount: function () {
                     return this.cart.length || '';
                 },
-                sortedProduct() {
+                ascendingOrder() {
                     let productsArray = this.product.slice(0);
                     function compare(a, b) {
                         if (a.price > b.price)
                             return 1;
                         if (a.price < b.price)
                             return -1;
+                        return 0;
+                    }
+                    return productsArray.sort(compare);
+                },
+                descendingOrder() {
+                    let productsArray = this.product.slice(0);
+                    function compare(a, b) {
+                        if (a.price > b.price)
+                            return -1;
+                        if (a.price < b.price)
+                            return 1;
                         return 0;
                     }
                     return productsArray.sort(compare);
