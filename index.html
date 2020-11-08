@@ -29,8 +29,45 @@
 
             <!-- Products list -->
             <div v-if="showProduct">
-                <div v-for="product in product">
+                <!-- Sorting Menu -->
 
+                <div class="nav-side-menu">
+                    <div class="brand">Sorting Menu</div>
+                    <div class="menu-list">
+
+                        <ul id="menu-content" class="menu-content collapse out">
+                            <li>
+                                <input type="checkbox" v-on:click="sort('title')">
+                                <label>Subject</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" v-on:click="sort('location')">
+                                <label>Location</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" v-on:click="sort('price')">
+                                <label>Price</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" v-on:click="sort('seatsLeft')">
+                                <label>Seats Available</label>
+                            </li>
+                            <br>
+                            <li>
+                                <input input type="checkbox" v-on:click="order('ascending')">
+                                <label>Ascending Order</label>
+
+
+                            </li>
+                            <li>
+
+                                <input input type="checkbox" v-on:click="order('descending')">
+                                <label>Descending Order</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div v-for="product in items">
                     <div class="product-card">
                         <div class="product-tumb">
                             <img v-bind:src="product.image">
@@ -68,53 +105,39 @@
                         </div>
 
                     </div>
-
-                    <!-- Sort menu -->
-
-                    <!-- <div class="nav-side-menu">
-                        <div class="brand">Sorting Menu</div>
-                        <div class="menu-list">
-
-                            <ul id="menu-content" class="menu-content collapse out">
-                                <li>
-                                    <input type="radio" id="Subject" value="Subject">
-                                    <label>Subject</label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="Location" value="Location">
-                                    <label>Location</label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="Price" value="Price">
-                                    <label>Price</label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="Availabity" value="Availabity">
-                                    <label>Seats Available</label>
-                                </li>
-                                <br>
-                                <li>
-                                    <input type="radio" id="ascending">
-                                    <label>Ascending Order</label>
-                                    
-
-                                </li>
-                                <li>
-
-                                    <input type="radio" id="descending">
-                                    <label>Descending Order</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
+                </div>
+                    
                 </div>
 
 
 
-            </div>
+
+            <!-- Checkout Page -->
+
             <div v-else>
+                <!-- Checkout Form to enter name and phone number -->
+                <div class="wrapper">
+                    <div class="checkoutContainer">
+                        <div class="title">Checkout Form</div>
 
-
+                        <div class="input-form">
+                            <div class="section-1">
+                                <div class="items">
+                                    <label class="label">Full Name</label>
+                                    <input type="text" class="input" placeholder="Enter your full name">
+                                </div>
+                            </div>
+                            <div class="section-2">
+                                <div class="items">
+                                    <label class="label">Phone Number</label>
+                                    <input type="text" class="input" placeholder="Enter phone number">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn" v-on:click="submitForm">Place a booking</button>
+                    </div>
+                </div>
+                <!-- shopping cart -->
                 <div v-for="product in cartPage">
 
                     <div class="product-card">
@@ -129,7 +152,7 @@
                             <div class="product-bottom-details">
                                 <div class="product-price">
                                     <p> Price: {{product.price}}</p>
-                                    <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
+                                    <p> Seats booked : {{cartCount(product.id)}} </p>
 
                                 </div>
                             </div>
@@ -147,10 +170,12 @@
             el: "#app",
             data: {
                 sitename: "After School Classes",
-                product: product,
+                origItems: product,
                 cart: [],
                 cartPage: [],
                 showProduct: true,
+                sortType: '',
+                sortMethod: '',
             },
             methods: {
                 addtoCart(product) {
@@ -178,6 +203,13 @@
                     }
                     return count;
                 },
+                sort(type) {
+                    this.sortType = type;
+                },
+                order(type) {
+                    this.sortMethod = type;
+                }
+
 
             },
             computed: {
@@ -185,28 +217,67 @@
                 cartitemCount: function () {
                     return this.cart.length || '';
                 },
-                ascendingOrder() {
-                    let productsArray = this.product.slice(0);
-                    function compare(a, b) {
-                        if (a.price > b.price)
-                            return 1;
-                        if (a.price < b.price)
-                            return -1;
-                        return 0;
+                // ascendingOrder() {
+                //     let productsArray = this.product.slice(0);
+                //     function compare(a, b) {
+                //         if (a.price > b.price)
+                //             return 1;
+                //         if (a.price < b.price)
+                //             return -1;
+                //         return 0;
+                //     }
+                //     return productsArray.sort(compare);
+                // },
+                // descendingOrder() {
+                //     let productsArray = this.product.slice(0);
+                //     function compare(a, b) {
+                //         if (a.price > b.price)
+                //             return -1;
+                //         if (a.price < b.price)
+                //             return 1;
+                //         return 0;
+                //     }
+                //     return productsArray.sort(compare);
+                // },
+
+                items() {
+                    if (this.sortType === '') return this.origItems;
+                    if (this.sortMethod === 'ascending') {
+                    if (this.sortType === 'title') {
+                        return this.origItems.sort((a, b) => {
+                            if (a.title < b.title) return -1;
+                            if (a.title > b.title) return 1;
+                            return 0;
+                        });
                     }
-                    return productsArray.sort(compare);
-                },
-                descendingOrder() {
-                    let productsArray = this.product.slice(0);
-                    function compare(a, b) {
-                        if (a.price > b.price)
-                            return -1;
-                        if (a.price < b.price)
-                            return 1;
-                        return 0;
+                    if (this.sortType === 'price') {
+                        return this.origItems.sort((a, b) => {
+                            if (a.price < b.price) return -1;
+                            if (a.price > b.price) return 1;
+                            return 0;
+                        });
                     }
-                    return productsArray.sort(compare);
-                },
+                    }
+// descending Order
+                    if (this.sortMethod === 'descending') {
+                    if (this.sortType === 'title') {
+                        return this.origItems.sort((a, b) => {
+                            if (a.title < b.title) return 1;
+                            if (a.title > b.title) return -1;
+                            return 0;
+                        });
+                    }
+                    if (this.sortType === 'price') {
+                        return this.origItems.sort((a, b) => {
+                            if (a.price < b.price) return 1;
+                            if (a.price > b.price) return -1;
+                            return 0;
+                        });
+                    }
+                    }
+
+                }
+
 
             },
 
