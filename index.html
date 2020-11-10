@@ -134,12 +134,12 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn" v-on:click="submitForm">Place a booking</button>
+                        <button class="btn" v-on:click="submitForm">Checkout</button>
                     </div>
                 </div>
                 <!-- shopping cart -->
                 <h1 class="pagetitle">Shopping Cart</h1>
-                <div v-for="product in cartPage">
+                <div v-for="(product,index) in cartPage">
 
                     <div class="product-card">
                         <div class="product-tumb">
@@ -155,7 +155,7 @@
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats booked : {{cartCount(product.id)}} </p>
                                     <div class="buttons-coll">
-                                        <button class="custom-btn btn-1" v-on:click="deleteItem">Delete</button>
+                                        <button class="custom-btn btn-1" v-on:click="deleteItem(index)">Remove from cart</button>
                                     </div>
                                 </div>
 
@@ -228,9 +228,10 @@
                 order(type) {
                     this.sortMethod = type;
                 },
-                deleteItem() {
-                    this.cartPage.splice(product, 1);
-                    this.cart.splice(product, 1);
+                deleteItem(index) {
+                    console.log(index);
+                    this.cartPage.splice(index,1);
+                    this.cart.splice(index,1);
                 },
 
             },
