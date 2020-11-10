@@ -10,7 +10,7 @@ let product = [
     {
         id: 1002,
         title: "English Club",
-        location: "Dubai",
+        location: "London",
         price: 1000,
         image: "images/englishClub.jpg",
         availableSpace: 5,
@@ -18,7 +18,7 @@ let product = [
     {
         id: 1003,
         title: "Chemistry Club",
-        location: "Dubai",
+        location: "Mauritius",
         price: 5000,
         image: "images/chemClub.jpg",
         availableSpace: 5,
@@ -26,7 +26,7 @@ let product = [
     {
         id: 1004,
         title: "Biology Club",
-        location: "Dubai",
+        location: "Mauritius",
         price: 200,
         image: "images/mathsClub.jpg",
         availableSpace: 5,
@@ -42,7 +42,7 @@ let product = [
     {
         id: 1006,
         title: "Music Club",
-        location: "Dubai",
+        location: "Malta",
         price: 1500,
         image: "images/chemClub.jpg",
         availableSpace: 5,

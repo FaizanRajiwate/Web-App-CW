@@ -25,6 +25,7 @@ body {
   margin-left:12px;
 }
 
+
 /* Navigation Bar css */
 
 nav {
@@ -65,10 +66,31 @@ nav button:hover {
     color: rgba(0, 35, 122, 0.7);
 }
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  text-decoration: none;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 
 /* Product cart css */
-
-
 
 .product-card {
     width: 380px;
@@ -76,7 +98,8 @@ nav button:hover {
     box-shadow: 0 2px 7px #dfdfdf;
     margin: 50px auto;
     background: #fafafa;
-    float:left;
+    position: relative;
+    float: left;
     margin-left:300px;
 }
 
@@ -174,7 +197,7 @@ nav button:hover {
     font-size: 12px;
     font-weight: 200;
     background-color: #2e353d;
-    position: fixed;
+    position:fixed;
     margin-top: 50px;
     width: 200px;
     height: 450px;
@@ -296,7 +319,6 @@ nav button:hover {
   .wrapper{
     width: 100%;
     padding: 10px;
-    align:left;
   }
   
   .checkoutContainer{
@@ -389,3 +411,7 @@ nav button:hover {
       margin-bottom: 15px;
     }
   }
+
+
+
+  
