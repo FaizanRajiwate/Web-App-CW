@@ -15,6 +15,7 @@
     <div id="app">
         <header>
             <h1 class="pagetitle" v-text="sitename"></h1>
+            <!-- Nav Bar -->
             <nav>
                 <ul>
                     <li class="active"><button v-on:click="page('showProduct')">Home</button></li>
@@ -23,18 +24,12 @@
                 </ul>
             </nav>
         </header>
-
         <main>
-
-
-            <!-- Products list -->
             <div v-if="showProduct">
                 <!-- Sorting Menu -->
-
                 <div class="nav-side-menu">
                     <div class="brand">Sorting Menu</div>
                     <div class="menu-list">
-
                         <ul id="menu-content" class="menu-content collapse out">
                             <li>
                                 <input type="checkbox" v-on:click="sort('title')">
@@ -56,17 +51,15 @@
                             <li>
                                 <input input type="checkbox" v-on:click="order('ascending')">
                                 <label>Ascending Order</label>
-
-
                             </li>
                             <li>
-
                                 <input input type="checkbox" v-on:click="order('descending')">
                                 <label>Descending Order</label>
                             </li>
                         </ul>
                     </div>
                 </div>
+                <!-- display all the products using for loop -->
                 <div v-for="product in items">
                     <div class="product-card">
                         <div class="product-tumb">
@@ -82,6 +75,7 @@
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
                                     <div class="buttons-coll">
+                                        <!-- add to cart button -->
                                         <button class="custom-btn btn-1"
                                             v-on:click="addtoCart(product) , cartDisplay(product)"
                                             v-if='canAddToCart(product)'>
@@ -106,25 +100,19 @@
 
                     </div>
                 </div>
-
             </div>
-
-
-
-
             <!-- Checkout Page -->
-
             <div v-else>
                 <!-- Checkout Form to enter name and phone number -->
                 <div class="wrapper">
                     <div class="checkoutContainer">
                         <div class="title">Checkout Form</div>
-
                         <div class="input-form">
                             <div class="section-1">
                                 <div class="items">
                                     <label class="label">Full Name</label>
-                                    <input type="text" class="input" placeholder="Enter your full name" v-model="name">
+                                    <input type="text" class="input" placeholder="Enter your full name"
+                                        v-model="firstName" @keypress="isLetter($event)">
                                 </div>
                             </div>
                             <div class="section-2">
@@ -155,17 +143,14 @@
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats booked : {{cartCount(product.id)}} </p>
                                     <div class="buttons-coll">
-                                        <button class="custom-btn btn-1" v-on:click="deleteItem(index)">Remove from cart</button>
+                                        <button class="custom-btn btn-1" v-on:click="deleteItem(index)">Remove from
+                                            cart</button>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </main>
     </div>
@@ -181,8 +166,8 @@
                 showProduct: true,
                 sortType: '',
                 sortMethod: '',
-                name: '',
                 phone: '',
+                firstName: '',
             },
             methods: {
                 addtoCart(product) {
@@ -196,7 +181,7 @@
                 },
 
                 submitForm() {
-                    if (!this.name) {
+                    if (!this.firstName) {
                         alert('Please Enter Name');
                     }
                     else if (!this.phone) {
@@ -218,7 +203,13 @@
                     }
                     return count;
                 },
-
+                // used to only allow the user to enter letters in the textfield
+                isLetter(e) {
+                    let char = String.fromCharCode(e.keyCode);
+                    if (/^[A-Za-z]+$/.test(char)) return true;
+                    else e.preventDefault();
+                },
+                // used to get the type and order of sorting choosen by the user
                 sort(type) {
                     this.sortType = type;
                 },
@@ -228,17 +219,18 @@
                 order(type) {
                     this.sortMethod = type;
                 },
+                // deletes item from shopping cart
                 deleteItem(index) {
-                    console.log(index);
-                    this.cartPage.splice(index,1);
-                    this.cart.splice(index,1);
+                    this.cartPage.splice(index, 1);
+                    this.cart.splice(index, 1);
                 },
-
             },
             computed: {
-
                 cartitemCount: function () {
                     return this.cart.length || '';
+                },
+                firstNameValid() {
+                    return /^[A-Za-z]+$/.test(this.firstName);
                 },
                 // Ascending Order Sort
                 items() {
@@ -304,15 +296,10 @@
                             });
                         }
                     }
-
                 }
-
-
             },
-
         });
     </script>
-
 
 </body>
 
