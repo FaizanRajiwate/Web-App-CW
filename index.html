@@ -127,9 +127,9 @@
                 </div>
                 <!-- shopping cart -->
                 <h1 class="pagetitle">Shopping Cart</h1>
-                <div v-for="(product,index) in cartPage">
+                <div v-for="(product,index) in origItems" v-if="Math.abs(product.availableSpace - cartCount(product.id) - 5) > 0" >
 
-                    <div class="product-card">
+                    <div class="product-card" >
                         <div class="product-tumb">
                             <img v-bind:src="product.image">
                         </div>
@@ -156,6 +156,8 @@
     </div>
 
     <script>
+        
+
         var webstore = new Vue({
             el: "#app",
             data: {
