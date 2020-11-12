@@ -73,31 +73,27 @@
                             <div class="product-bottom-details">
                                 <div class="product-price">
                                     <p> Price: {{product.price}}</p>
-                                    <p> Seats Remaining : {{product.availableSpace - cartCount(product.id)}} </p>
+                                    <p> Seats Remaining : {{product.availableSpace}} </p>
                                     <div class="buttons-coll">
                                         <!-- add to cart button -->
-                                        <button class="custom-btn btn-1"
-                                            v-on:click="addtoCart(product) , cartDisplay(product)"
-                                            v-if='canAddToCart(product)'>
+                                        <button class="custom-btn btn-1" v-on:click="addtoCart(product)" v-if='canAddToCart(product)'>
                                             Apply
                                         </button>
                                         <!-- Checking Seats Remaining  using if else to display whether products sold out or are left to purchase -->
-                                        <span v-if="product.availableSpace === cartCount(product.id)">
+                                        <span v-if="product.seats === cartCount(product.id)">
                                             All seats booked!
                                         </span>
-                                        <span v-else-if="product.availableSpace - cartCount(product.id) < 5">
-                                            only {{product.availableSpace - cartCount(product.id)}} seats left!
+                                        <span v-else-if="product.seats - cartCount(product.id) < 5">
+                                            only {{product.availableSpace}} seats left!
                                         </span>
                                         <span v-else>
                                             Book Now!
                                         </span>
-
                                         <button disabled='disabled' v-else>Apply for class</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -127,7 +123,7 @@
                 </div>
                 <!-- shopping cart -->
                 <h1 class="pagetitle">Shopping Cart</h1>
-                <div v-for="(product,index) in origItems" v-if="Math.abs(product.availableSpace - cartCount(product.id) - 5) > 0" >
+                <div v-for="product in origItems" v-if="Math.abs(product.availableSpace - cartCount(product.id) - 5) > 0" >
 
                     <div class="product-card" >
                         <div class="product-tumb">
@@ -143,7 +139,7 @@
                                     <p> Price: {{product.price}}</p>
                                     <p> Seats booked : {{cartCount(product.id)}} </p>
                                     <div class="buttons-coll">
-                                        <button class="custom-btn btn-1" v-on:click="deleteItem(index)">Remove from
+                                        <button class="custom-btn btn-1" v-on:click="deleteItem(product)">Remove from
                                             cart</button>
                                     </div>
                                 </div>
@@ -164,7 +160,6 @@
                 sitename: "After School Classes",
                 origItems: product,
                 cart: [],
-                cartPage: [],
                 showProduct: true,
                 sortType: '',
                 sortMethod: '',
@@ -173,10 +168,8 @@
             },
             methods: {
                 addtoCart(product) {
-                    this.cart.push(product.id);
-                },
-                cartDisplay(product) {
-                    this.cartPage.push(product);
+                    this.cart.push(product.id); 
+                    product.availableSpace--;
                 },
                 showCheckout() {
                     this.showProduct = this.showProduct ? false : true;
@@ -194,7 +187,7 @@
                     }
                 },
                 canAddToCart: function (product) {
-                    return product.availableSpace > this.cartCount(product.id);
+                    return product.seats > this.cartCount(product.id);
                 },
                 cartCount(id) {
                     let count = 0;
@@ -222,9 +215,9 @@
                     this.sortMethod = type;
                 },
                 // deletes item from shopping cart
-                deleteItem(index) {
-                    this.cartPage.splice(index, 1);
-                    this.cart.splice(index, 1);
+                deleteItem(product) {
+                    this.cart.splice(this.cart.indexOf(product.id),1);
+                    product.availableSpace++;
                 },
             },
             computed: {

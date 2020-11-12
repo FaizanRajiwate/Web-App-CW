@@ -6,6 +6,7 @@ let product = [
         price: 250,
         image: "images/maths.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 2,
@@ -14,6 +15,7 @@ let product = [
         price: 100,
         image: "images/english.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 3,
@@ -22,6 +24,7 @@ let product = [
         price: 400,
         image: "images/chem.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 4,
@@ -30,6 +33,7 @@ let product = [
         price: 200,
         image: "images/bio.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 5,
@@ -38,6 +42,7 @@ let product = [
         price: 500,
         image: "images/physics.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 6,
@@ -46,6 +51,7 @@ let product = [
         price: 150,
         image: "images/music.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 7,
@@ -54,6 +60,7 @@ let product = [
         price: 500,
         image: "images/IT.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 8,
@@ -62,6 +69,7 @@ let product = [
         price: 250,
         image: "images/PE.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 9,
@@ -70,6 +78,7 @@ let product = [
         price: 150,
         image: "images/art.jpg",
         availableSpace: 5,
+        seats:5,
     },
     {
         id: 10,
@@ -78,5 +87,6 @@ let product = [
         price: 100,
         image: "images/social.jpg",
         availableSpace: 5,
+        seats:5,
     },
 ];
