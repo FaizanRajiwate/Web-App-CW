@@ -20,7 +20,8 @@
                 <ul>
                     <li class="active"><button v-on:click="page('showProduct')">Home</button></li>
                     <li><button disabled='disabled'>Cart : {{cartitemCount}} </button></li>
-                    <li><button v-on:click='showCheckout'>Checkout</button></li>
+                    <li v-if="cartitemCount > 0"><button v-on:click='showCheckout'>Checkout</button></li>
+                    <li v-else><button disabled = 'disabled'>Checkout</button></li>
                 </ul>
             </nav>
         </header>
@@ -124,7 +125,6 @@
                 <!-- shopping cart -->
                 <h1 class="pagetitle">Shopping Cart</h1>
                 <div v-for="product in origItems" v-if="Math.abs(product.availableSpace - cartCount(product.id) - 5) > 0" >
-
                     <div class="product-card" >
                         <div class="product-tumb">
                             <img v-bind:src="product.image">
@@ -176,6 +176,7 @@
                 },
 
                 submitForm() {
+                    if(this.cartitemCount > 0){
                     if (!this.firstName) {
                         alert('Please Enter Name');
                     }
@@ -184,6 +185,10 @@
                     }
                     else {
                         alert('Order Submitted!')
+                    }
+                    }
+                    else {
+                        alert("Cart Empty!");
                     }
                 },
                 canAddToCart: function (product) {
