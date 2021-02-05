@@ -166,6 +166,19 @@
                 phone: '',
                 firstName: '',
             },
+
+            created: function () {
+                // replace the URL to your Heroku app and route 
+                fetch('https://web-app-lab.herokuapp.com/collection/product').then(
+                    function (response) {
+                        response.json().then(
+                            function (json) {
+                                // note that we used 'store.product' instead of 'this.product' 
+                                webstore.product = json;
+                            });
+                    })
+            },
+
             methods: {
                 addtoCart(product) {
                     this.cart.push(product.id); 
