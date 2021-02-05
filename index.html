@@ -21,7 +21,11 @@
                     <li class="active"><button v-on:click="page('showProduct')">Home</button></li>
                     <li><button disabled='disabled'>Cart : {{cartitemCount}} </button></li>
                     <li v-if="cartitemCount > 0"><button v-on:click='showCheckout'>Checkout</button></li>
+<<<<<<< HEAD
                     <li v-else><button disabled='disabled'>Checkout</button></li>
+=======
+                    <li v-else><button disabled = 'disabled'>Checkout</button></li>
+>>>>>>> ed6cfdf16c8046cb341eeace3ccdab7b0d281e9b
                 </ul>
             </nav>
         </header>
@@ -125,9 +129,14 @@
                 </div>
                 <!-- shopping cart -->
                 <h1 class="pagetitle">Shopping Cart</h1>
+<<<<<<< HEAD
                 <div v-for="product in origItems"
                     v-if="Math.abs(product.availableSpace - cartCount(product.id) - 5) > 0">
                     <div class="product-card">
+=======
+                <div v-for="product in origItems" v-if="Math.abs(product.availableSpace - cartCount(product.id) - 5) > 0" >
+                    <div class="product-card" >
+>>>>>>> ed6cfdf16c8046cb341eeace3ccdab7b0d281e9b
                         <div class="product-tumb">
                             <img v-bind:src="product.image">
                         </div>
